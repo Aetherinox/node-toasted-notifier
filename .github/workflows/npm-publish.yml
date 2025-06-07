@@ -159,6 +159,14 @@ jobs:
         steps:
 
             # #
+            #   Initialize › Job Information
+            # #
+
+            - name: >-
+                  🔄 Load Job
+              uses: qoomon/actions--context@v4
+
+            # #
             #   Initialize › Start
             # #
 
@@ -196,7 +204,12 @@ jobs:
                   echo " SHA 1 ............... ${ GITHUB_SHA }"
                   echo " SHA 2 ............... ${{ github.sha }}"
                   echo " Workspace ........... ${{ github.workspace }}"
-                  echo " PWD ................. ${PWD}"
+                  echo " PWD ................. ${ PWD }"
+                  echo " Job Id .............. ${ GITHUB_JOB_ID }"
+                  echo " Job Name ............ ${ GITHUB_JOB_NAME }"
+                  echo " Job Log URL ......... ${ GITHUB_JOB_URL }"
+                  echo " Environment ......... ${ GITHUB_ENVIRONMENT }"
+                  echo " Deployment URL ...... ${ GITHUB_DEPLOYMENT_URL }"
                   echo -e
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo -e
@@ -248,6 +261,14 @@ jobs:
         steps:
 
             # #
+            #   Publish › NpmJS › Job Information
+            # #
+
+            - name: >-
+                  🔄 Load Job
+              uses: qoomon/actions--context@v4
+
+            # #
             #   Publish › NpmJS › Start
             # #
 
@@ -285,7 +306,12 @@ jobs:
                   echo " SHA 1 ............... ${ GITHUB_SHA }"
                   echo " SHA 2 ............... ${{ github.sha }}"
                   echo " Workspace ........... ${{ github.workspace }}"
-                  echo " PWD ................. ${PWD}"
+                  echo " PWD ................. ${ PWD }"
+                  echo " Job Id .............. ${ GITHUB_JOB_ID }"
+                  echo " Job Name ............ ${ GITHUB_JOB_NAME }"
+                  echo " Job Log URL ......... ${ GITHUB_JOB_URL }"
+                  echo " Environment ......... ${ GITHUB_ENVIRONMENT }"
+                  echo " Deployment URL ...... ${ GITHUB_DEPLOYMENT_URL }"
                   echo -e
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo -e
@@ -382,6 +408,14 @@ jobs:
         steps:
 
             # #
+            #   Publish › Github GHCR › Job Information
+            # #
+
+            - name: >-
+                  🔄 Load Job
+              uses: qoomon/actions--context@v4
+
+            # #
             #   Publish › Github GHCR › Start
             # #
 
@@ -419,7 +453,12 @@ jobs:
                   echo " SHA 1 ............... ${ GITHUB_SHA }"
                   echo " SHA 2 ............... ${{ github.sha }}"
                   echo " Workspace ........... ${{ github.workspace }}"
-                  echo " PWD ................. ${PWD}"
+                  echo " PWD ................. ${ PWD }"
+                  echo " Job Id .............. ${ GITHUB_JOB_ID }"
+                  echo " Job Name ............ ${ GITHUB_JOB_NAME }"
+                  echo " Job Log URL ......... ${ GITHUB_JOB_URL }"
+                  echo " Environment ......... ${ GITHUB_ENVIRONMENT }"
+                  echo " Deployment URL ...... ${ GITHUB_DEPLOYMENT_URL }"
                   echo -e
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo -e
@@ -547,6 +586,14 @@ jobs:
         steps:
 
             # #
+            #   Publish › Github Release › Job Information
+            # #
+
+            - name: >-
+                  🔄 Load Job
+              uses: qoomon/actions--context@v4
+
+            # #
             #   Publish › Github Release › Start
             # #
 
@@ -584,7 +631,12 @@ jobs:
                   echo " SHA 1 ............... ${ GITHUB_SHA }"
                   echo " SHA 2 ............... ${{ github.sha }}"
                   echo " Workspace ........... ${{ github.workspace }}"
-                  echo " PWD ................. ${PWD}"
+                  echo " PWD ................. ${ PWD }"
+                  echo " Job Id .............. ${ GITHUB_JOB_ID }"
+                  echo " Job Name ............ ${ GITHUB_JOB_NAME }"
+                  echo " Job Log URL ......... ${ GITHUB_JOB_URL }"
+                  echo " Environment ......... ${ GITHUB_ENVIRONMENT }"
+                  echo " Deployment URL ...... ${ GITHUB_DEPLOYMENT_URL }"
                   echo -e
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo -e
