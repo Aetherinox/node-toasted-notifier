@@ -1,57 +1,69 @@
-const Notify = require('../notifiers/notifysend');
-const utils = require('../lib/utils');
-const os = require('os');
+const Notify = require( '../notifiers/notifysend' );
+const utils = require( '../lib/utils' );
+const os = require( 'os' );
 
-describe('notify-send', function () {
+describe( 'notify-send', () =>
+{
     const original = utils.command;
     const originalType = os.type;
 
-    beforeEach(function () {
-        os.type = function () {
+    beforeEach( () =>
+    {
+        os.type = function ()
+        {
             return 'Linux';
         };
     });
 
-    afterEach(function () {
+    afterEach( () =>
+    {
         utils.command = original;
         os.type = originalType;
     });
 
-    function expectArgsListToBe(expected, done) {
-        utils.command = function (notifier, argsList, callback) {
-            expect(argsList).toEqual(expected);
+    function expectArgsListToBe( expected, done )
+    {
+        utils.command = function ( notifier, argsList, callback )
+        {
+            expect( argsList ).toEqual( expected );
             done();
         };
     }
 
-    it('should pass on title and body', function (done) {
-        const expected = ['"title"', '"body"', '--expire-time', '"10000"'];
-        expectArgsListToBe(expected, done);
+    it( 'should pass on title and body', ( done ) =>
+    {
+        const expected = [ '"title"', '"body"', '--expire-time', '"10000"' ];
+        expectArgsListToBe( expected, done );
         const notifier = new Notify({ suppressOsdCheck: true });
         notifier.notify({ title: 'title', message: 'body' });
     });
 
-    it('should pass have default title', function (done) {
-        const expected = ['"Example Notification:"', '"body"', '--expire-time', '"10000"'];
+    it( 'should pass have default title', ( done ) =>
+    {
+        const expected = [ '"Example Notification:"', '"body"', '--expire-time', '"10000"' ];
 
-        expectArgsListToBe(expected, done);
+        expectArgsListToBe( expected, done );
         const notifier = new Notify({ suppressOsdCheck: true });
         notifier.notify({ message: 'body' });
     });
 
-    it('should throw error if no message is passed', function (done) {
-        utils.command = function (notifier, argsList, callback) {
-            expect(argsList).toBeUndefined();
+    it( 'should throw error if no message is passed', ( done ) =>
+    {
+        utils.command = function ( notifier, argsList, callback )
+        {
+            expect( argsList ).toBeUndefined();
         };
 
         const notifier = new Notify({ suppressOsdCheck: true });
-        notifier.notify({}, function (err) {
-            expect(err.message).toBe('Message is required.');
+        notifier.notify({}, ( err ) =>
+        {
+            expect( err.message ).toBe( 'Message is required.' );
             done();
         });
     });
 
-    it('should escape message input', function (done) {
+    it( 'should escape message input', ( done ) =>
+    {
         const excapedNewline = process.platform === 'win32' ? '\\r\\n' : '\\n';
         const expected = [
             '"Example Notification:"',
@@ -60,12 +72,13 @@ describe('notify-send', function () {
             '"10000"'
         ];
 
-        expectArgsListToBe(expected, done);
+        expectArgsListToBe( expected, done );
         const notifier = new Notify({ suppressOsdCheck: true });
         notifier.notify({ message: 'some\n "me\'ss`age`"' });
     });
 
-    it('should escape array items as normal items', function (done) {
+    it( 'should escape array items as normal items', ( done ) =>
+    {
         const expected = [
             '"Hacked"',
             '"\\`touch HACKED\\`"',
@@ -77,31 +90,37 @@ describe('notify-send', function () {
             '"10000"'
         ];
 
-        expectArgsListToBe(expected, done);
+        expectArgsListToBe( expected, done );
         const notifier = new Notify({ suppressOsdCheck: true });
         const options = JSON.parse(
-            `{
-        "title": "Hacked",
-        "message":["\`touch HACKED\`"],
-        "app-name": ["foo\`touch exploit\`"],
-        "category": ["foo\`touch exploit\`"]
-      }`
-        );
-        notifier.notify(options);
+        `{
+            "title": "Hacked",
+            "message":["\`touch HACKED\`"],
+            "app-name": ["foo\`touch exploit\`"],
+            "category": ["foo\`touch exploit\`"]
+        }` );
+
+        notifier.notify( options );
     });
 
-    it('should send additional parameters as --"keyname"', function (done) {
-        const expected = ['"title"', '"body"', '--icon', '"icon-string"', '--expire-time', '"10000"'];
+    it( 'should send additional parameters as --"keyname"', ( done ) =>
+    {
+        const expected = [
+            '"title"', '"body"', '--icon', '"icon-string"', '--expire-time', '"10000"'
+        ];
 
-        expectArgsListToBe(expected, done);
+        expectArgsListToBe( expected, done );
         const notifier = new Notify({ suppressOsdCheck: true });
         notifier.notify({ title: 'title', message: 'body', icon: 'icon-string' });
     });
 
-    it('should remove extra options that are not supported by notify-send', function (done) {
-        const expected = ['"title"', '"body"', '--icon', '"icon-string"', '--expire-time', '"1000"'];
+    it( 'should remove extra options that are not supported by notify-send', ( done ) =>
+    {
+        const expected = [
+            '"title"', '"body"', '--icon', '"icon-string"', '--expire-time', '"1000"'
+        ];
 
-        expectArgsListToBe(expected, done);
+        expectArgsListToBe( expected, done );
         const notifier = new Notify({ suppressOsdCheck: true });
         notifier.notify({
             title: 'title',

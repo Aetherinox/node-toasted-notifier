@@ -1,13 +1,15 @@
 /* eslint-disable no-console */
 
-const toasted = require('../index');
+const toasted = require( '../index' );
 
 toasted
-    .notify({ message: 'Hello', wait: true }, function (err, data) {
+    .notify({ message: 'Hello', wait: true }, ( err, data ) =>
+    {
         // wait until notification is closed.
-        console.log('Waited');
-        console.log(err, data);
+        console.log( 'Waited' );
+        console.log( err, data );
     })
-    .on('click', function () {
-        console.log(arguments);
+    .on( 'click', ( ...args ) =>
+    {
+        console.log( args );
     });

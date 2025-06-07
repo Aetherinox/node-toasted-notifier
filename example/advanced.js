@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 
-const toasted = require('../');
+const toasted = require( '../' );
 const nc = new toasted.NotificationCenter();
-const path = require('path');
+const path = require( 'path' );
 
 nc.notify(
     {
@@ -11,11 +11,12 @@ nc.notify(
         message: 'This is an advanced test message',
         sound: 'Funk',
         wait: true,
-        icon: path.join(__dirname, 'example_1.png'),
-        contentImage: path.join(__dirname, 'example_1.png'),
-        open: 'file://' + path.join(__dirname, 'example_1.png')
+        icon: path.join( __dirname, 'example_1.png' ),
+        contentImage: path.join( __dirname, 'example_1.png' ),
+        open: 'file://' + path.join( __dirname, 'example_1.png' )
     },
-    function () {
-        console.log(arguments);
+    ( ...args ) =>
+    {
+        console.log( args );
     }
 );

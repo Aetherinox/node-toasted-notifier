@@ -1,15 +1,15 @@
-const os = require('os');
-const utils = require('./lib/utils');
+const os = require( 'os' );
+const utils = require( './lib/utils' );
 
 /*
     Require notification vendors
 */
 
-const NotifySend = require('./notifiers/notifysend');
-const NotificationCenter = require('./notifiers/notificationcenter');
-const WindowsToaster = require('./notifiers/toaster');
-const Growl = require('./notifiers/growl');
-const WindowsBalloon = require('./notifiers/balloon');
+const NotifySend = require( './notifiers/notifysend' );
+const NotificationCenter = require( './notifiers/notificationcenter' );
+const WindowsToaster = require( './notifiers/toaster' );
+const Growl = require( './notifiers/growl' );
+const WindowsBalloon = require( './notifiers/balloon' );
 
 /*
     Define > Misc
@@ -22,38 +22,46 @@ const osType = utils.isWSL() ? 'WSL' : os.type();
     Assign notification vendor to operating system
 */
 
-switch (osType) {
+switch ( osType )
+{
     case 'Linux':
-        module.exports = new NotifySend(options);
+        module.exports = new NotifySend( options );
         module.exports.Notification = NotifySend;
         break;
 
     case 'Darwin':
-        module.exports = new NotificationCenter(options);
+        module.exports = new NotificationCenter( options );
         module.exports.Notification = NotificationCenter;
         break;
 
     case 'Windows_NT':
-        if (utils.isLessThanWin8()) {
-            module.exports = new WindowsBalloon(options);
+        if ( utils.isLessThanWin8() )
+        {
+            module.exports = new WindowsBalloon( options );
             module.exports.Notification = WindowsBalloon;
-        } else {
-            module.exports = new WindowsToaster(options);
+        }
+        else
+        {
+            module.exports = new WindowsToaster( options );
             module.exports.Notification = WindowsToaster;
         }
+
         break;
 
     case 'WSL':
-        module.exports = new WindowsToaster(options);
+        module.exports = new WindowsToaster( options );
         module.exports.Notification = WindowsToaster;
         break;
 
     default:
-        if (os.type().match(/BSD$/)) {
-            module.exports = new NotifySend(options);
+        if ( os.type().match( /BSD$/ ) )
+        {
+            module.exports = new NotifySend( options );
             module.exports.Notification = NotifySend;
-        } else {
-            module.exports = new Growl(options);
+        }
+        else
+        {
+            module.exports = new Growl( options );
             module.exports.Notification = Growl;
         }
 }

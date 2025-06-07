@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-const notifier = require('../');
+const notifier = require( '../' );
 const nc = new notifier.NotificationCenter();
 
 const trueAnswer = 'Yessir.';
@@ -17,11 +17,13 @@ nc.notify(
         closeLabel: 'Nope',
         actions: trueAnswer
     },
-    function (err, response, metadata) {
-        if (err) throw err;
-        console.log(metadata);
+    ( err, response, metadata ) =>
+    {
+        if ( err ) throw err;
+        console.log( metadata );
 
-        if (metadata.activationValue !== trueAnswer) {
+        if ( metadata.activationValue !== trueAnswer )
+        {
             return; // Do not continue
         }
 
@@ -32,14 +34,16 @@ nc.notify(
                 sound: 'Funk',
                 reply: true
             },
-            function (err, response, metadata) {
-                if (err) throw err;
-                console.log(metadata);
+            ( err, response, metadata ) =>
+            {
+                if ( err ) throw err;
+                console.log( metadata );
             }
         );
     }
 );
 
-nc.on('replied', function (obj, options, metadata) {
-    console.log('User has replied', metadata);
+nc.on( 'replied', ( obj, options, metadata ) =>
+{
+    console.log( 'User has replied', metadata );
 });

@@ -1,159 +1,203 @@
-const NotificationCenter = require('../notifiers/notificationcenter');
-const Growl = require('../notifiers/growl');
-const utils = require('../lib/utils');
-const path = require('path');
-const os = require('os');
-const fs = require('fs');
-const testUtils = require('./_test-utils');
+const NotificationCenter = require( '../notifiers/notificationcenter' );
+const Growl = require( '../notifiers/growl' );
+const utils = require( '../lib/utils' );
+const path = require( 'path' );
+const os = require( 'os' );
+const fs = require( 'fs' );
+const testUtils = require( './_test-utils' );
 
 let notifier = null;
 const originalUtils = utils.fileCommandJson;
 const originalMacVersion = utils.isMountainLion;
 const originalType = os.type;
 
-describe('Mac fallback', function () {
+describe( 'Mac fallback', () =>
+{
     const original = utils.isMountainLion;
     const originalMac = utils.isMac;
 
-    afterEach(function () {
+    afterEach( () =>
+    {
         utils.isMountainLion = original;
         utils.isMac = originalMac;
     });
 
-    it('should default to Growl notification if older Mac OSX than 10.8', function (done) {
-        utils.isMountainLion = function () {
+    it( 'should default to Growl notification if older Mac OSX than 10.8', ( done ) =>
+    {
+        utils.isMountainLion = function ()
+        {
             return false;
         };
-        utils.isMac = function () {
+
+        utils.isMac = function ()
+        {
             return true;
         };
+
         const n = new NotificationCenter({ withFallback: true });
-        n.notify({ message: 'Hello World' }, function (_, response) {
-            expect(this).toBeInstanceOf(Growl);
+        n.notify({ message: 'Hello World' }, function ( _, response )
+        {
+            expect( this ).toBeInstanceOf( Growl );
             done();
         });
     });
 
-    it('should not fallback to Growl notification if withFallback is false', function (done) {
-        utils.isMountainLion = function () {
+    it( 'should not fallback to Growl notification if withFallback is false', ( done ) =>
+    {
+        utils.isMountainLion = function ()
+        {
             return false;
         };
-        utils.isMac = function () {
+
+        utils.isMac = function ()
+        {
             return true;
         };
+
         const n = new NotificationCenter();
-        n.notify({ message: 'Hello World' }, function (err, response) {
-            expect(err).toBeTruthy();
-            expect(this).not.toBeInstanceOf(Growl);
+        n.notify({ message: 'Hello World' }, function ( err, response )
+        {
+            expect( err ).toBeTruthy();
+            expect( this ).not.toBeInstanceOf( Growl );
             done();
         });
     });
 });
 
-describe('terminal-notifier', function () {
-    beforeEach(function () {
-        os.type = function () {
+describe( 'terminal-notifier', () =>
+{
+    beforeEach( () =>
+    {
+        os.type = function ()
+        {
             return 'Darwin';
         };
 
-        utils.isMountainLion = function () {
+        utils.isMountainLion = function ()
+        {
             return true;
         };
     });
 
-    beforeEach(function () {
+    beforeEach( () =>
+    {
         notifier = new NotificationCenter();
     });
 
-    afterEach(function () {
+    afterEach( () =>
+    {
         os.type = originalType;
         utils.isMountainLion = originalMacVersion;
     });
 
     // Simulate async operation, move to end of message queue.
-    function asyncify(fn) {
-        return function () {
-            const args = arguments;
-            setTimeout(function () {
-                fn(...args);
-            }, 0);
+    function asyncify( fn )
+    {
+        return function ( ...args )
+        {
+            setTimeout( () =>
+            {
+                fn( ...args );
+            }, 0 );
         };
     }
 
-    describe('#notify()', function () {
-        beforeEach(function () {
-            utils.fileCommandJson = asyncify(function (n, o, cb) {
-                cb(null, '');
+    describe( '#notify()', () =>
+    {
+        beforeEach( () =>
+        {
+            utils.fileCommandJson = asyncify( ( n, o, cb ) =>
+            {
+                cb( null, '' );
             });
         });
 
-        afterEach(function () {
+        afterEach( () =>
+        {
             utils.fileCommandJson = originalUtils;
         });
 
-        it('should notify with a message', function (done) {
-            notifier.notify({ message: 'Hello World' }, function (err, response) {
-                expect(err).toBeNull();
+        it( 'should notify with a message', ( done ) =>
+        {
+            notifier.notify({ message: 'Hello World' }, ( err, response ) =>
+            {
+                expect( err ).toBeNull();
                 done();
             });
         });
 
-        it('should be chainable', function (done) {
-            notifier.notify({ message: 'First test' }).notify({ message: 'Second test' }, function (err, response) {
-                expect(err).toBeNull();
+        it( 'should be chainable', ( done ) =>
+        {
+            notifier.notify({ message: 'First test' }).notify({ message: 'Second test' }, ( err, response ) =>
+            {
+                expect( err ).toBeNull();
                 done();
             });
         });
 
-        it('should be able to list all notifications', function (done) {
-            utils.fileCommandJson = asyncify(function (n, o, cb) {
-                cb(null, fs.readFileSync(path.join(__dirname, '/fixture/listAll.txt')).toString());
+        it( 'should be able to list all notifications', ( done ) =>
+        {
+            utils.fileCommandJson = asyncify( ( n, o, cb ) =>
+            {
+                cb( null, fs.readFileSync( path.join( __dirname, '/fixture/listAll.txt' ) ).toString() );
             });
 
-            notifier.notify({ list: 'ALL' }, function (_, response) {
-                expect(response).toBeTruthy();
+            notifier.notify({ list: 'ALL' }, ( _, response ) =>
+            {
+                expect( response ).toBeTruthy();
                 done();
             });
         });
 
-        it('should be able to remove all messages', function (done) {
-            utils.fileCommandJson = asyncify(function (n, o, cb) {
-                cb(null, fs.readFileSync(path.join(__dirname, '/fixture/removeAll.txt')).toString());
+        it( 'should be able to remove all messages', ( done ) =>
+        {
+            utils.fileCommandJson = asyncify( ( n, o, cb ) =>
+            {
+                cb( null, fs.readFileSync( path.join( __dirname, '/fixture/removeAll.txt' ) ).toString() );
             });
 
-            notifier.notify({ remove: 'ALL' }, function (_, response) {
-                expect(response).toBeTruthy();
+            notifier.notify({ remove: 'ALL' }, ( _, response ) =>
+            {
+                expect( response ).toBeTruthy();
 
-                utils.fileCommandJson = asyncify(function (n, o, cb) {
-                    cb(null, '');
+                utils.fileCommandJson = asyncify( ( n, o, cb ) =>
+                {
+                    cb( null, '' );
                 });
 
-                notifier.notify({ list: 'ALL' }, function (_, response) {
-                    expect(response).toBeFalsy();
+                notifier.notify({ list: 'ALL' }, ( _, response ) =>
+                {
+                    expect( response ).toBeFalsy();
                     done();
                 });
             });
         });
     });
 
-    describe('arguments', function () {
-        beforeEach(function () {
+    describe( 'arguments', () =>
+    {
+        beforeEach( function ()
+        {
             this.original = utils.fileCommandJson;
         });
 
-        afterEach(function () {
+        afterEach( function ()
+        {
             utils.fileCommandJson = this.original;
         });
 
-        function expectArgsListToBe(expected, done) {
-            utils.fileCommandJson = asyncify(function (notifier, argsList, callback) {
-                expect(argsList).toEqual(expected);
+        function expectArgsListToBe( expected, done )
+        {
+            utils.fileCommandJson = asyncify( ( notifier, argsList, callback ) =>
+            {
+                expect( argsList ).toEqual( expected );
                 callback();
                 done();
             });
         }
 
-        it('should allow for non-sensical arguments (fail gracefully)', function (done) {
+        it( 'should allow for non-sensical arguments (fail gracefully)', ( done ) =>
+        {
             const expected = [
                 '-title',
                 '"title"',
@@ -167,34 +211,40 @@ describe('terminal-notifier', function () {
                 '"true"'
             ];
 
-            expectArgsListToBe(expected, done);
+            expectArgsListToBe( expected, done );
             const notifier = new NotificationCenter();
             notifier.isNotifyChecked = true;
             notifier.hasNotifier = true;
 
-            notifier.notify({
+            notifier.notify(
+            {
                 title: 'title',
                 message: 'body',
                 tullball: 'notValid'
             });
         });
 
-        it('should validate and transform sound to default sound if Windows sound is selected', function (done) {
-            utils.fileCommandJson = asyncify(function (notifier, argsList, callback) {
-                expect(testUtils.getOptionValue(argsList, '-title')).toBe('"Heya"');
-                expect(testUtils.getOptionValue(argsList, '-sound')).toBe('"Bottle"');
+        it( 'should validate and transform sound to default sound if Windows sound is selected', ( done ) =>
+        {
+            utils.fileCommandJson = asyncify( ( notifier, argsList, callback ) =>
+            {
+                expect( testUtils.getOptionValue( argsList, '-title' ) ).toBe( '"Heya"' );
+                expect( testUtils.getOptionValue( argsList, '-sound' ) ).toBe( '"Bottle"' );
                 callback();
                 done();
             });
+
             const notifier = new NotificationCenter();
-            notifier.notify({
+            notifier.notify(
+            {
                 title: 'Heya',
                 message: 'foo bar',
                 sound: 'Notification.Default'
             });
         });
 
-        it('should convert list of actions to flat list', function (done) {
+        it( 'should convert list of actions to flat list', ( done ) =>
+        {
             const expected = [
                 '-title',
                 '"title \\"message\\""',
@@ -208,22 +258,26 @@ describe('terminal-notifier', function () {
                 '"true"'
             ];
 
-            expectArgsListToBe(expected, done);
+            expectArgsListToBe( expected, done );
             const notifier = new NotificationCenter();
             notifier.isNotifyChecked = true;
             notifier.hasNotifier = true;
 
-            notifier.notify({
+            notifier.notify(
+            {
                 title: 'title "message"',
                 message: 'body "message"',
-                actions: ['foo', 'bar', 'baz "foo" bar']
+                actions: [ 'foo', 'bar', 'baz "foo" bar' ]
             });
         });
 
-        it('should still support wait flag with default timeout', function (done) {
-            const expected = ['-title', '"Title"', '-message', '"Message"', '-timeout', '"5"', '-json', '"true"'];
+        it( 'should still support wait flag with default timeout', ( done ) =>
+        {
+            const expected = [
+                '-title', '"Title"', '-message', '"Message"', '-timeout', '"5"', '-json', '"true"'
+            ];
 
-            expectArgsListToBe(expected, done);
+            expectArgsListToBe( expected, done );
             const notifier = new NotificationCenter();
             notifier.isNotifyChecked = true;
             notifier.hasNotifier = true;
@@ -231,15 +285,19 @@ describe('terminal-notifier', function () {
             notifier.notify({ title: 'Title', message: 'Message', wait: true });
         });
 
-        it('should let timeout set precedence over wait', function (done) {
-            const expected = ['-title', '"Title"', '-message', '"Message"', '-timeout', '"10"', '-json', '"true"'];
+        it( 'should let timeout set precedence over wait', ( done ) =>
+        {
+            const expected = [
+                '-title', '"Title"', '-message', '"Message"', '-timeout', '"10"', '-json', '"true"'
+            ];
 
-            expectArgsListToBe(expected, done);
+            expectArgsListToBe( expected, done );
             const notifier = new NotificationCenter();
             notifier.isNotifyChecked = true;
             notifier.hasNotifier = true;
 
-            notifier.notify({
+            notifier.notify(
+            {
                 title: 'Title',
                 message: 'Message',
                 wait: true,
@@ -247,10 +305,13 @@ describe('terminal-notifier', function () {
             });
         });
 
-        it('should not set a default timeout if explicitly false', function (done) {
-            const expected = ['-title', '"Title"', '-message', '"Message"', '-json', '"true"'];
+        it( 'should not set a default timeout if explicitly false', ( done ) =>
+        {
+            const expected = [
+                '-title', '"Title"', '-message', '"Message"', '-json', '"true"'
+            ];
 
-            expectArgsListToBe(expected, done);
+            expectArgsListToBe( expected, done );
             const notifier = new NotificationCenter();
             notifier.isNotifyChecked = true;
             notifier.hasNotifier = true;
@@ -262,7 +323,8 @@ describe('terminal-notifier', function () {
             });
         });
 
-        it('should escape all title and message', function (done) {
+        it( 'should escape all title and message', ( done ) =>
+        {
             const expected = [
                 '-title',
                 '"title \\"message\\""',
@@ -276,12 +338,13 @@ describe('terminal-notifier', function () {
                 '"true"'
             ];
 
-            expectArgsListToBe(expected, done);
+            expectArgsListToBe( expected, done );
             const notifier = new NotificationCenter();
             notifier.isNotifyChecked = true;
             notifier.hasNotifier = true;
 
-            notifier.notify({
+            notifier.notify(
+            {
                 title: 'title "message"',
                 message: 'body "message"',
                 tullball: 'notValid'
