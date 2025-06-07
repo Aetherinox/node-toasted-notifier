@@ -4,8 +4,9 @@
 const path = require('path');
 const notifier = path.resolve(__dirname, '../vendor/ntfyToast/ntfytoast');
 const utils = require('../lib/utils');
-const crypto = require('crypto');
 const Balloon = require('./balloon');
+const crypto = require('crypto');
+
 // const os = require('os');
 
 const EventEmitter = require('events').EventEmitter;

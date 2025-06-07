@@ -3,9 +3,7 @@ const utils = require('../lib/utils');
 const path = require('path');
 const os = require('os');
 const testUtils = require('./_test-utils');
-jest.mock('uuid', () => {
-    return { v4: () => '123456789' };
-});
+jest.mock('crypto', () => ({ randomUUID: () => '123456789' }));
 
 describe('WindowsToaster', function () {
     const original = utils.fileCommand;
