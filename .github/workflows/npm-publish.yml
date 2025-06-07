@@ -175,7 +175,7 @@ jobs:
                   ✅ Start
               run: |
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
-                  echo " Starting Job ${ GITHUB_JOB_NAME }"
+                  echo " Starting Job ${{ steps.context.outputs.job_name }}"
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo "YEAR=$(date +'%Y')" >> $GITHUB_ENV
                   echo "NOW=$(date +'%m-%d-%Y %H:%M:%S')" >> $GITHUB_ENV
@@ -287,7 +287,7 @@ jobs:
                   ✅ Start
               run: |
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
-                  echo " Starting Job ${ GITHUB_JOB_NAME }"
+                  echo " Starting Job ${{ steps.context.outputs.job_name }}"
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo "YEAR=$(date +'%Y')" >> $GITHUB_ENV
                   echo "NOW=$(date +'%m-%d-%Y %H:%M:%S')" >> $GITHUB_ENV
@@ -444,7 +444,7 @@ jobs:
                   ✅ Start
               run: |
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
-                  echo " Starting Job ${ GITHUB_JOB_NAME }"
+                  echo " Starting Job ${{ steps.context.outputs.job_name }}"
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo "YEAR=$(date +'%Y')" >> $GITHUB_ENV
                   echo "NOW=$(date +'%m-%d-%Y %H:%M:%S')" >> $GITHUB_ENV
@@ -632,7 +632,7 @@ jobs:
                   ✅ Start
               run: |
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
-                  echo " Starting Job ${ GITHUB_JOB_NAME }"
+                  echo " Starting Job ${{ steps.context.outputs.job_name }}"
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo "YEAR=$(date +'%Y')" >> $GITHUB_ENV
                   echo "NOW=$(date +'%m-%d-%Y %H:%M:%S')" >> $GITHUB_ENV
