@@ -71,12 +71,12 @@
         "postexample:windows:nexe-custom-path": "noxenv DEBUG=notifier ./dist/toaster-custom-path.exe",
         "contrib:add": "all-contributors add",
         "contrib:generate": "all-contributors generate",
-        "ntfy": "node ntfy.js",
-        "ntfy:generate": "node ntfy.js generate",
-        "env-base": "npx --quiet env-cmd --no-override node ntfy.js",
-        "env-uuid": "npx --quiet env-cmd --no-override node ntfy.js uuid",
-        "env-guid": "npx --quiet env-cmd --no-override node ntfy.js guid",
-        "env-version": "node -p require('./package.json').version;"
+        "root": "node root.mjs",
+        "root:generate": "node root.mjs generate",
+        "root:root": "npx --quiet env-cmd --no-override node root.mjs",
+        "root:uuid": "npx --quiet env-cmd --no-override node root.mjs uuid",
+        "root:guid": "npx --quiet env-cmd --no-override node root.mjs guid",
+        "root:version": "node -p require('./package.json').version;"
     },
     "jest": {
         "testRegex": "/test/[^_]*.js",
