@@ -4,6 +4,7 @@
 const path = require('path');
 const notifier = path.resolve(__dirname, '../vendor/ntfyToast/ntfytoast');
 const utils = require('../lib/utils');
+const crypto = require('crypto');
 const Balloon = require('./balloon');
 // const os = require('os');
 
@@ -50,7 +51,8 @@ function parseResult(data) {
 
 function getPipeName() {
     const pathPrefix = utils.isWSL() ? PIPE_PATH_PREFIX_WSL : PIPE_PATH_PREFIX;
-    return `${pathPrefix}${PIPE_NAME}-${uuid()}`;
+    const uuid = crypto.randomUUID();
+    return `${pathPrefix}${PIPE_NAME}-${uuid}`;
 }
 
 function notifyRaw(options, callback) {
