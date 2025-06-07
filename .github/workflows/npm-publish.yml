@@ -165,6 +165,7 @@ jobs:
             - name: >-
                   🔄 Load Job
               uses: qoomon/actions--context@v4
+              id: 'context'
 
             # #
             #   Initialize › Start
@@ -205,11 +206,20 @@ jobs:
                   echo " SHA 2 ............... ${{ github.sha }}"
                   echo " Workspace ........... ${{ github.workspace }}"
                   echo " PWD ................. ${ PWD }"
-                  echo " Job Id .............. ${ GITHUB_JOB_ID }"
-                  echo " Job Name ............ ${ GITHUB_JOB_NAME }"
-                  echo " Job Log URL ......... ${ GITHUB_JOB_URL }"
-                  echo " Environment ......... ${ GITHUB_ENVIRONMENT }"
-                  echo " Deployment URL ...... ${ GITHUB_DEPLOYMENT_URL }"
+                  echo " Job Name ............ ${{ steps.context.outputs.job_name }}"
+                  echo " Job ID .............. ${{ steps.context.outputs.job_id }}"
+                  echo " Job URL ............. ${{ steps.context.outputs.job_url }}"
+                  echo " Run ID .............. ${{ steps.context.outputs.run_id }}"
+                  echo " Run Attempt ......... ${{ steps.context.outputs.run_attempt }}"
+                  echo " Run Number .......... ${{ steps.context.outputs.run_number }}"
+                  echo " Run URL ............. ${{ steps.context.outputs.run_url }}"
+                  echo " Run Env ............. ${{ steps.context.outputs.environment }}"
+                  echo " Run Env URL ......... ${{ steps.context.outputs.environment_url }}"
+                  echo " Run Deployment ...... ${{ steps.context.outputs.deployment_id }}"
+                  echo " Run Deployment URL .. ${{ steps.context.outputs.deployment_url }}"
+                  echo " Run Deployment ...... ${{ steps.context.outputs.deployment_id }}"
+                  echo " Run Runner Name ..... ${{ steps.context.outputs.runner_name }}"
+                  echo " Run Runner ID ....... ${{ steps.context.outputs.runner_id }}"
                   echo -e
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo -e
@@ -267,6 +277,7 @@ jobs:
             - name: >-
                   🔄 Load Job
               uses: qoomon/actions--context@v4
+              id: 'context'
 
             # #
             #   Publish › NpmJS › Start
@@ -307,11 +318,20 @@ jobs:
                   echo " SHA 2 ............... ${{ github.sha }}"
                   echo " Workspace ........... ${{ github.workspace }}"
                   echo " PWD ................. ${ PWD }"
-                  echo " Job Id .............. ${ GITHUB_JOB_ID }"
-                  echo " Job Name ............ ${ GITHUB_JOB_NAME }"
-                  echo " Job Log URL ......... ${ GITHUB_JOB_URL }"
-                  echo " Environment ......... ${ GITHUB_ENVIRONMENT }"
-                  echo " Deployment URL ...... ${ GITHUB_DEPLOYMENT_URL }"
+                  echo " Job Name ............ ${{ steps.context.outputs.job_name }}"
+                  echo " Job ID .............. ${{ steps.context.outputs.job_id }}"
+                  echo " Job URL ............. ${{ steps.context.outputs.job_url }}"
+                  echo " Run ID .............. ${{ steps.context.outputs.run_id }}"
+                  echo " Run Attempt ......... ${{ steps.context.outputs.run_attempt }}"
+                  echo " Run Number .......... ${{ steps.context.outputs.run_number }}"
+                  echo " Run URL ............. ${{ steps.context.outputs.run_url }}"
+                  echo " Run Env ............. ${{ steps.context.outputs.environment }}"
+                  echo " Run Env URL ......... ${{ steps.context.outputs.environment_url }}"
+                  echo " Run Deployment ...... ${{ steps.context.outputs.deployment_id }}"
+                  echo " Run Deployment URL .. ${{ steps.context.outputs.deployment_url }}"
+                  echo " Run Deployment ...... ${{ steps.context.outputs.deployment_id }}"
+                  echo " Run Runner Name ..... ${{ steps.context.outputs.runner_name }}"
+                  echo " Run Runner ID ....... ${{ steps.context.outputs.runner_id }}"
                   echo -e
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo -e
@@ -414,6 +434,7 @@ jobs:
             - name: >-
                   🔄 Load Job
               uses: qoomon/actions--context@v4
+              id: 'context'
 
             # #
             #   Publish › Github GHCR › Start
@@ -454,11 +475,20 @@ jobs:
                   echo " SHA 2 ............... ${{ github.sha }}"
                   echo " Workspace ........... ${{ github.workspace }}"
                   echo " PWD ................. ${ PWD }"
-                  echo " Job Id .............. ${ GITHUB_JOB_ID }"
-                  echo " Job Name ............ ${ GITHUB_JOB_NAME }"
-                  echo " Job Log URL ......... ${ GITHUB_JOB_URL }"
-                  echo " Environment ......... ${ GITHUB_ENVIRONMENT }"
-                  echo " Deployment URL ...... ${ GITHUB_DEPLOYMENT_URL }"
+                  echo " Job Name ............ ${{ steps.context.outputs.job_name }}"
+                  echo " Job ID .............. ${{ steps.context.outputs.job_id }}"
+                  echo " Job URL ............. ${{ steps.context.outputs.job_url }}"
+                  echo " Run ID .............. ${{ steps.context.outputs.run_id }}"
+                  echo " Run Attempt ......... ${{ steps.context.outputs.run_attempt }}"
+                  echo " Run Number .......... ${{ steps.context.outputs.run_number }}"
+                  echo " Run URL ............. ${{ steps.context.outputs.run_url }}"
+                  echo " Run Env ............. ${{ steps.context.outputs.environment }}"
+                  echo " Run Env URL ......... ${{ steps.context.outputs.environment_url }}"
+                  echo " Run Deployment ...... ${{ steps.context.outputs.deployment_id }}"
+                  echo " Run Deployment URL .. ${{ steps.context.outputs.deployment_url }}"
+                  echo " Run Deployment ...... ${{ steps.context.outputs.deployment_id }}"
+                  echo " Run Runner Name ..... ${{ steps.context.outputs.runner_name }}"
+                  echo " Run Runner ID ....... ${{ steps.context.outputs.runner_id }}"
                   echo -e
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo -e
@@ -573,7 +603,7 @@ jobs:
         runs-on: ubuntu-latest
       # runs-on: apollo-x64
         timeout-minutes: 5
-        needs: [ job-initialize, job-publish-npm, job-publish-gpr ]
+        needs: [ job-initialize ]
         env:
             PACKAGE_VERSION: ${{ needs.job-initialize.outputs.package_version }}
         if: |
@@ -592,6 +622,7 @@ jobs:
             - name: >-
                   🔄 Load Job
               uses: qoomon/actions--context@v4
+              id: 'context'
 
             # #
             #   Publish › Github Release › Start
@@ -632,11 +663,20 @@ jobs:
                   echo " SHA 2 ............... ${{ github.sha }}"
                   echo " Workspace ........... ${{ github.workspace }}"
                   echo " PWD ................. ${ PWD }"
-                  echo " Job Id .............. ${ GITHUB_JOB_ID }"
-                  echo " Job Name ............ ${ GITHUB_JOB_NAME }"
-                  echo " Job Log URL ......... ${ GITHUB_JOB_URL }"
-                  echo " Environment ......... ${ GITHUB_ENVIRONMENT }"
-                  echo " Deployment URL ...... ${ GITHUB_DEPLOYMENT_URL }"
+                  echo " Job Name ............ ${{ steps.context.outputs.job_name }}"
+                  echo " Job ID .............. ${{ steps.context.outputs.job_id }}"
+                  echo " Job URL ............. ${{ steps.context.outputs.job_url }}"
+                  echo " Run ID .............. ${{ steps.context.outputs.run_id }}"
+                  echo " Run Attempt ......... ${{ steps.context.outputs.run_attempt }}"
+                  echo " Run Number .......... ${{ steps.context.outputs.run_number }}"
+                  echo " Run URL ............. ${{ steps.context.outputs.run_url }}"
+                  echo " Run Env ............. ${{ steps.context.outputs.environment }}"
+                  echo " Run Env URL ......... ${{ steps.context.outputs.environment_url }}"
+                  echo " Run Deployment ...... ${{ steps.context.outputs.deployment_id }}"
+                  echo " Run Deployment URL .. ${{ steps.context.outputs.deployment_url }}"
+                  echo " Run Deployment ...... ${{ steps.context.outputs.deployment_id }}"
+                  echo " Run Runner Name ..... ${{ steps.context.outputs.runner_name }}"
+                  echo " Run Runner ID ....... ${{ steps.context.outputs.runner_id }}"
                   echo -e
                   echo "―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――"
                   echo -e
