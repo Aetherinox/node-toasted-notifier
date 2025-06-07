@@ -1,24 +1,37 @@
 {
     "name": "toasted-notifier",
+    "version": "10.1.0",
     "description": "Push notifications in NodeJS for MacOS, Windows 7 - 11, and Linux (Growl as fallback)",
-    "version": "10.0.2",
     "author": "Aetherinox",
+    "homepage": "https://github.com/Aetherinox/node-toasted-notifier#readme",
+    "license": "MIT",
+    "main": "index.js",
+    "build": {
+        "appId": "com.ntfytoast.id"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/Aetherinox/node-toasted-notifier.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Aetherinox/node-toasted-notifier/issues"
+    },
+    "funding": [
+        {
+            "type": "individual",
+            "url": "https://buymeacoffee.com/aetherinox"
+        }
+    ],
     "contributors": [
         {
             "name": "Aetherinox",
-            "email": "adminservx@proton.me",
+            "email": "118329232+Aetherinox@users.noreply.github.com",
             "url": "https://github.com/Aetherinox"
         }
     ],
-    "homepage": "https://github.com/Aetherinox/ntfy-toast-node#readme",
-    "repository": {
-        "type": "git",
-        "url": "git+ssh://git@github.com/Aetherinox/ntfy-toast-node.git"
-    },
-    "bugs": {
-        "url": "https://github.com/Aetherinox/ntfy-toast-node/issues"
-    },
-    "license": "MIT",
     "keywords": [
         "push notifications",
         "notifications",
@@ -37,7 +50,6 @@
         "windows 10",
         "windows 11"
     ],
-    "main": "index.js",
     "scripts": {
         "prepare": "husky install",
         "pretest": "npm run lint",
@@ -73,14 +85,11 @@
             "./test/_test-matchers.js"
         ]
     },
-    "build": {
-        "appId": "com.ntfytoast.id"
-    },
     "devDependencies": {
-        "@types/uuid": "^9.0.8",
+        "@aetherinox/noxenv": "^1.1.1",
+        "@types/uuid": "^10.0.0",
         "@types/semver": "^7.5.8",
         "copyfiles": "^2.4.1",
-        "@aetherinox/noxenv": "^1.0.0",
         "eslint": "^7.26.0",
         "eslint-config-semistandard": "^15.0.1",
         "eslint-config-standard": "^16.0.2",
@@ -93,14 +102,14 @@
         "nexe": "^4.0.0-beta.19",
         "prettier": "^3.3.2",
         "rimraf": "^3.0.2",
-        "all-contributors-cli": "^6.26.1"
+        "all-contributors-cli": "^6.26.1",
+        "uuid": "^11.1.0"
     },
     "dependencies": {
         "growly": "^1.3.0",
         "is-wsl": "^2.2.0",
-        "semver": "^7.6.0",
+        "semver": "^7.7.2",
         "shellwords": "^0.1.1",
-        "uuid": "^9.0.1",
         "which": "^2.0.2"
     },
     "lint-staged": {
