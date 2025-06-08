@@ -84,11 +84,11 @@ This library is packaged with [ntfy-desktop](https://github.com/Aetherinox/ntfy-
 
 # About
 
-Toasted Notifier allows you to send cross platform native notifications using Node.js. Works well with Electron.
+Toasted Notifier allows you to send cross platform native notifications using Node.js, and works well with Electron.
 
 <br />
 
-The following different types of notifications are listed below:
+This node package `toasted-notifier` contains a combination of supported notification vendors, which allows a user on any operating system to use this package in their application. The following list shows all of the notification vendors this package supports, which operating system it is for, and the filename for where the code belonging to that notification system can be found in this package:
 
 | Notification API | Operating System | File | View Docs |
 | --- | --- | --- | --- |
@@ -96,22 +96,24 @@ The following different types of notifications are listed below:
 | **WindowsBalloon** | `Windows XP / 7` | `notifiers\balloon.js` | [view](#windowsballoon) |
 | **NotifySend** | `Linux` | `notifiers\notifysend.js` | [view](#notifysend) |
 | **NotificationCenter** | `macOS / OS X` | `notifiers\notificationcenter.js` | [view](#notificationcenter) |
-| **Growl** | `MacOS / OS X` | `notifiers\growl.js` | [view](#growl) |
+| **Growl** | `macOS / OS X`, `Windows` | `notifiers\growl.js` | [view](#growl) |
 
 <br />
 
-The correct notification package will be used by Toasted Notifier depending on the end-user operating system:
--  `MacOS`: Notification Center
-   - `>= 10.8` for native notifications, or [Growl](#growl) if earlier. 
--  `Linux`: notify-osd or libnotify-bin
-   - notify-osd or libnotify-bin must be installed 
-   - Ubuntu should have this by default
--  `Windows 8 - 11`: [Ntfy Toasts](#what-is-ntfy-toast) / Windows Toasts
--  `Windows 7 and earlier`: [Windows balloons](#windowsballoon)
-   -  [Windows balloons](#windowsballoon) for Windows < 8.
-   -  [Growl](#growl) as fallback.
-   -  [Growl](#growl) takes precedence over [Windows balloons](#windowsballoon).  
--  `Other`: [Growl](#growl) is used if none of these requirements are met
+When you include `toasted-notifier` in your node project, the API will automatically detect what operating system you are running your application on. Depending on the operating system, Toasted Notifier will call the correct notification package that it will use to show your coded notifications. The following outlines how the package acts and what it takes into consideration:
+
+- [NotificationCenter](#notificationcenter): macOS
+  - This package will be used if you are running on macOS >= 10.8 or newer.
+  - If running on an older version of macOS, [Growl](#growl) will be used instead.
+- [NotifySend](#notifysend): Linux / Unix
+  - Notifications will be shown using `notify-osd` or `libnotify-bin`; which must be installed on your Linux system.
+  - Ubuntu should have one of these packages by default
+- [WindowToaster](#windowstoaster): Microsoft Windows 8, 9, 10, 11+
+- [WindowsBalloon](#windowsballoon): Windows XP, 7
+  - [Growl](#growl) as fallback if Windows Balloon notifications cannot be called
+  - [Growl](#growl) takes precedence over [Windows balloons](#windowsballoon)
+- [Growl](#growl): macOS, Windows
+  - This notification system is called if none of the requirements for the other notification vendors are met
 
 <br />
 
@@ -248,7 +250,7 @@ The following different types of notifications are listed below:
 | **WindowsBalloon** | `Windows XP / 7` | `notifiers\balloon.js` | [view](#windowsballoon) |
 | **NotifySend** | `Linux` | `notifiers\notifysend.js` | [view](#notifysend) |
 | **NotificationCenter** | `macOS / OS X` | `notifiers\notificationcenter.js` | [view](#notificationcenter) |
-| **Growl** | `MacOS / OS X` | `notifiers\growl.js` | [view](#growl) |
+| **Growl** | `macOS / OS X` | `notifiers\growl.js` | [view](#growl) |
 
 ---
 
