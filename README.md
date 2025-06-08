@@ -17,7 +17,11 @@ This library is packaged with [ntfy-desktop](https://github.com/Aetherinox/ntfy-
 <div align="center">
 
 <!-- prettier-ignore-start -->
-[![Version][badge-version-gh]][link-version-gh] [![Build Status][badge-build]][link-build] [![Downloads][badge-downloads-gh]][link-downloads-gh] [![Size][badge-size-gh]][badge-size-gh] [![Last Commit][badge-commit]][badge-commit]
+[![Version][badge-version-gh]][link-version-gh] 
+[![Build Status][badge-build]][link-build] 
+[![Downloads][badge-downloads-gh]][link-downloads-gh] 
+[![Size][badge-size-gh]][badge-size-gh] 
+[![Last Commit][badge-commit]][badge-commit]
 <!-- prettier-ignore-end -->
 
 </div>
@@ -67,14 +71,14 @@ This library is packaged with [ntfy-desktop](https://github.com/Aetherinox/ntfy-
   - [appID support](#appid-support)
     - [Create App Shortcut](#create-app-shortcut)
     - [Call App](#call-app)
-  - [Help](#help)
-    - [How to change text `NtfyToast` at the top of notifications](#how-to-change-text-ntfytoast-at-the-top-of-notifications)
-    - [Can't use Windows Toast notifications in WSL2](#cant-use-windows-toast-notifications-in-wsl2)
-    - [Distributing with Electron](#distributing-with-electron)
-    - [Using Webpack](#using-webpack)
-    - [Windows: Where are files / .lnk files placed](#windows-where-are-files--lnk-files-placed)
-    - [Header icon broken / missing / default](#header-icon-broken--missing--default)
-    - [Usage in tmux session](#usage-in-tmux-session)
+- [Help](#help)
+  - [How to change text `NtfyToast` at the top of notifications](#how-to-change-text-ntfytoast-at-the-top-of-notifications)
+  - [Can't use Windows Toast notifications in WSL2](#cant-use-windows-toast-notifications-in-wsl2)
+  - [Distributing with Electron](#distributing-with-electron)
+  - [Using Webpack](#using-webpack)
+  - [Windows: Where are files / .lnk files placed](#windows-where-are-files--lnk-files-placed)
+  - [Header icon broken / missing / default](#header-icon-broken--missing--default)
+  - [Usage in tmux session](#usage-in-tmux-session)
 
 <br />
 
@@ -242,7 +246,7 @@ const WindowsBalloon = require('toasted-notifier/notifiers/balloon');
 new WindowsBalloon(options).notify();
 
 /*
-    send notification to users running Windows or macOS users.
+    send notification to users running Windows or macOS
     this is the fallback used if the above notification vendors aren't available.
 */
 
@@ -782,13 +786,13 @@ With the above code, we have specified an `appID` on the following line:
 
 <br />
 
-## Help
+# Help
 
 The following is a list of questions or troubleshooting that may help you with implementing this node package.
 
 <br />
 
-### How to change text `NtfyToast` at the top of notifications
+## How to change text `NtfyToast` at the top of notifications
 
 In order to change the text `NtfyToast`, you must supply an `-appID`. Windows Toast notifications require that you provide an application id for a valid Windows application before Windows will allow you to link another program.
 
@@ -796,7 +800,7 @@ For instructions on accomplishing this, read the section [appID support](#appid-
 
 <br />
 
-### Can't use Windows Toast notifications in WSL2
+## Can't use Windows Toast notifications in WSL2
 
 Ntfy makes use of a 3rd party package for Windows notifications to work. You must change the permissions on the Ntfy vendor .exe in order for it to work properly.
 
@@ -816,7 +820,7 @@ You can add a `postinstall` action in the `package.json`:
 
 <br />
 
-### Distributing with Electron
+## Distributing with Electron
 
 If you package your Electron based app as an asar; toasted-notifier will fail to load. This is because of how a asar package works. You cannot execute a binary from within an asar package. 
 
@@ -844,7 +848,7 @@ build: {
 
 <br />
 
-### Using Webpack
+## Using Webpack
 
 When using `toasted-notifier` inside of webpack, you must add the snippet below to your `webpack.config.js`.
 
@@ -859,7 +863,7 @@ This is necessary because toasted-notifier loads the notifiers from a binary, an
 
 <br />
 
-### Windows: Where are files / .lnk files placed
+## Windows: Where are files / .lnk files placed
 
 In order for you to make your own custom application name appear at the top of a notification, you must create a `.lnk` in your Windows start menu. More about this is outlined in the section [AppID Support](#appid-support)
 
@@ -880,7 +884,7 @@ Delete any folders named `NtfyToast`, or whatever your custom app name is.
 
 <br />
 
-### Header icon broken / missing / default
+## Header icon broken / missing / default
 If you show a notification and notice that the far top-left icon next to the app name is either missing or is showing a default application icon, you may need to clear your start menu `.lnk` file.
 
 <br />
@@ -895,7 +899,7 @@ If you are using a custom application, search for the app name as a folder, and 
 
 <br />
 
-### Usage in tmux session
+## Usage in tmux session
 
 When using toasted-notifier within a tmux session, it can cause the system to abruptly hang. To solve this issue:
 
