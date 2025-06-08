@@ -4,7 +4,7 @@
 
 <p>
 
-**Toasted Notifier** is a forked verison of [node-notifier](https://github.com/mikaelbr/node-notifier) which has been updated with various changes. It allows for you to display push notifications within your application for Windows, Linux, and macOS. 
+**Toasted Notifier** is a forked version of [node-notifier](https://github.com/mikaelbr/node-notifier) which has been updated with various changes. It allows for you to display push notifications within your application for Windows, Linux, and macOS. 
 
 <br />
 
