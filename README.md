@@ -105,6 +105,7 @@ When you include `toasted-notifier` in your node project, the API will automatic
 - [NotificationCenter](#notificationcenter): macOS
   - This package will be used if you are running on macOS >= 10.8 or newer.
   - If running on an older version of macOS, [Growl](#growl) will be used instead.
+  - Messages sent using `terminal-notify`
 - [NotifySend](#notifysend): Linux / Unix
   - Notifications will be shown using `notify-osd` or `libnotify-bin`; which must be installed on your Linux system.
   - Ubuntu should have one of these packages by default
@@ -119,9 +120,11 @@ When you include `toasted-notifier` in your node project, the API will automatic
 
 ## What is ntfy-toast
 
-[ntfy-toast](https://github.com/Aetherinox/ntfy-toast) is a package included in this repo, which services notifications for users running Windows 8 - 11.
+This node package `toasted-notifier` utilizes a custom built library known as [ntfy-toast](https://github.com/Aetherinox/ntfy-toast) in order to show notifications on a user's system.
 
-It is based on [SnoreToast](https://github.com/KDE/snoretoast), but has been updated with numerous features.
+When you add this node package to your application and send a notification, data will be sent from this node package `toasted-notifier` over to [ntfy-toast](https://github.com/Aetherinox/ntfy-toast) with the details about what the notification should say to the user. Think of `toasted-notifier` as a wrapper that handles the communication between your app, and the notification app itself. `toasted-notifier` will do all of the talking between your app and [ntfy-toast](https://github.com/Aetherinox/ntfy-toast) each time a notification is triggered to be sent.
+
+[ntfy-toast](https://github.com/Aetherinox/ntfy-toast) is based on [SnoreToast](https://github.com/KDE/snoretoast), but has been updated with numerous new features.
 
 <br />
 
@@ -159,13 +162,19 @@ npm install --save toasted-notifier
 
 # Usage
 
-Example code for implementing notifications:
+Information and examples for implementing notifications:
+
+<br />
+
+> [!NOTE]
+> We have provided numerous written examples that you can view by going to the **example** folder of our repo:
+> - https://github.com/Aetherinox/node-toasted-notifier/tree/main/example
 
 <br />
 
 ## Cross-Platform Advanced Usage
 
-This format can be used for all notification vendors _(Windows, Linux, Mac)_
+If you wish to ensure that your node application supports all operating systems, _(Windows, Linux, Mac)_, you can use the following javascript as an example to build your notifications around:
 
 ```javascript
 const toasted = require('toasted-notifier');
@@ -179,8 +188,8 @@ toasted.notify(
         sound: true,                                    // Only Notification Center or Windows Toasters
         wait: true                                      // Wait on callback until user interacts, does not apply to Windows Toasters as they always wait or notify-send as it does not support the wait option
     },
-
-    function (err, response, metadata) {
+    ( error, response, metadata ) =>
+    {
         // Response is response from notification
         // Metadata contains activationType, activationAt, deliveredAt
     }
@@ -199,29 +208,51 @@ toasted.on('timeout', function (obj, options) {
 
 ## Fine-grained Control
 
-If you want super fine-grained control for each reporter; you can call them individually. This allows you to tune specific options for the different vendors.
+If you want super fine-grained control for each vendor; you can call them individually. This allows you to tune specific options for the different vendors.
 
-See below for documentation on each reporter.
+See below for documentation on each notification vendor.
+
 ```javascript
+/*
+    send notification to users running macOS 10.8 or newer
+*/
+
 const NotificationCenter = require('toasted-notifier/notifiers/notificationcenter');
 new NotificationCenter(options).notify();
+
+/*
+    send notification to users running Linux
+*/
 
 const NotifySend = require('toasted-notifier/notifiers/notifysend');
 new NotifySend(options).notify();
 
+/*
+    send notification to users running Windows 8, 10, 11
+*/
+
 const WindowsToaster = require('toasted-notifier/notifiers/toaster');
 new WindowsToaster(options).notify();
 
-const Growl = require('toasted-notifier/notifiers/growl');
-new Growl(options).notify();
+/*
+    send notification to users running Windows XP or 7
+*/
 
 const WindowsBalloon = require('toasted-notifier/notifiers/balloon');
 new WindowsBalloon(options).notify();
+
+/*
+    send notification to users running Windows or macOS users.
+    this is the fallback used if the above notification vendors aren't available.
+*/
+
+const Growl = require('toasted-notifier/notifiers/growl');
+new Growl(options).notify();
 ```
 
 <br />
 
-If you're using several reporters:
+If you're using several vendors:
 
 ```javascript
 // NOTE: Technically, this takes longer to require
@@ -278,7 +309,8 @@ Notification is the primary focus of this module, so listing and activating do w
 ```javascript
 const NotificationCenter = require('toasted-notifier').NotificationCenter;
 
-const toasted = new NotificationCenter({
+const toasted = new NotificationCenter(
+{
     withFallback: false,        // Use Growl Fallback if <= 10.8
     customPath: undefined       // Relative/Absolute path to binary if you want to use your own fork of terminal-notifier
 });
@@ -301,8 +333,9 @@ toasted.notify(
         dropdownLabel: undefined,   // String. Label to be used if multiple actions
         reply: false                // Boolean. If notification should take input. Value passed as third argument in callback and event emitter.
     },
-    function (error, response, metadata) {
-        console.log(response, metadata);
+    ( error, response, metadata ) =>
+    {
+        console.log( response, metadata );
     }
 );
 ```
@@ -326,6 +359,7 @@ Default timeout is `10` to ensure that the application closes properly. To remov
 #### Sounds
 
 When specifying a `sound`, you have the following options:
+
 - Basso
 - Blow
 - Bottle
@@ -396,11 +430,12 @@ These limitations are due to the Toast notification system. A good tip is to use
 <br />
 
 #### Notifications Not Working
+
 If you do not see notifications from Toasted-Notifier, click windows **Start** and locate:
 
 <div align="center">
 
-<img src="https://github.com/Aetherinox/toasted-notifier/assets/118329232/1ed99a6a-f122-42f6-beb7-9c355d6622e2" width="380px">
+<img src="https://github.com/Aetherinox/toasted-notifier/assets/118329232/1ed99a6a-f122-42f6-beb7-9c355d6622e2" width="440px">
 
 </div>
 
@@ -408,11 +443,16 @@ If you do not see notifications from Toasted-Notifier, click windows **Start** a
 
 Locate `NtfyToast`, or your `customPath` / `appID` program in the list.
 
-<sup>`Note`: <a href="https://github.com/Aetherinox/ntfy-toast">NtfyToast</a> is the library used by Toasted-Notifier for Windows notifications</sup>
+<br />
+
+> [!NOTE]
+> <a href="https://github.com/Aetherinox/ntfy-toast">ntfy-toast</a> is the library used by this node package `toasted-notifier` for Windows notifications
+
+<br />
 
 <div align="center">
 
-<img src="https://github.com/Aetherinox/toasted-notifier/assets/118329232/2616ea6e-cde0-4240-8797-e671869dbe83" width="380px">
+<img src="https://github.com/Aetherinox/toasted-notifier/assets/118329232/2616ea6e-cde0-4240-8797-e671869dbe83" width="440px">
 
 </div>
 
@@ -422,13 +462,14 @@ Enable both permissions for `banner` and `sound`:
 
 <div align="center">
 
-<img src="https://github.com/Aetherinox/toasted-notifier/assets/118329232/4d91a948-2231-4652-ba58-8547bd7ce48d" width="380px">
+<img src="https://github.com/Aetherinox/toasted-notifier/assets/118329232/4d91a948-2231-4652-ba58-8547bd7ce48d" width="440px">
 
 </div>
 
 </div>
 
 #### Windows 10 Fall Creators Update (Version 1709):
+
 This node package utilizes [ntfy-toast](https://github.com/Aetherinox/ntfy-toast) to display native Windows notifications.
 
 <br />
@@ -458,6 +499,7 @@ get-StartApps | Where-Object {$_.Name -like '*YourAppName*'}
 <br />
 
 In our example, we can run
+
 ```powershell
 get-StartApps | Where-Object {$_.Name -like '*Ntfytoast*'}
 ```
@@ -465,6 +507,7 @@ get-StartApps | Where-Object {$_.Name -like '*Ntfytoast*'}
 <br />
 
 Which returns the following:
+
 ```console
 Name          AppID
 ----          -----
@@ -484,7 +527,8 @@ Once you have found the custom app id you wish to use for notifications; you can
 ```javascript
 const WindowsToaster = require('toasted-notifier').WindowsToaster;
 
-const toasted = new WindowsToaster({
+const toasted = new WindowsToaster(
+{
     withFallback: false,            // Fallback to Growl or Balloons
     customPath: undefined           // Relative/Absolute path if you want to use your fork of SnoreToast.exe
 });
@@ -500,8 +544,9 @@ toasted.notify(
         remove: undefined,          // Number           | Refer to previously created notification to close.
         install: undefined          // String           | <path, application, app id> |  Creates a shortcut <path> in the start menu which point to the executable <application>, appID used for the notifications.
     },
-    function (error, response) {
-        console.log(response);
+    ( error, response ) =>
+    {
+        console.log( response );
     }
 );
 ```
@@ -528,7 +573,8 @@ const toasted = new Growl({
     port: 23053
 });
 
-toasted.notify({
+toasted.notify(
+{
     title: 'Foo',
     message: 'My Message',
     icon: fs.readFileSync(__dirname + '/example_1.png'),
@@ -552,9 +598,10 @@ toasted.notify({
 ```javascript
 const WindowsBalloon = require('toasted-notifier').WindowsBalloon;
 
-const toasted = new WindowsBalloon({
-  withFallback: false,      // Try Windows Toast and Growl first?
-  customPath: undefined     // Relative/Absolute path if you want to use your fork of notifu
+const toasted = new WindowsBalloon(
+{
+    withFallback: false,    // Try Windows Toast and Growl first?
+    customPath: undefined   // Relative/Absolute path if you want to use your fork of notifu
 });
 
 toasted.notify(
@@ -566,8 +613,9 @@ toasted.notify(
         wait: false,        // Wait for User Action against Notification
         type: 'info'        // The notification type : info | warn | error
     },
-    function (error, response) {
-        console.log(response);
+    ( error, response ) =>
+    {
+        console.log( response );
     }
 );
 ```
@@ -616,6 +664,7 @@ toasted.notify(
 <br />
 
 ## appID support
+
 Windows Toast notifications will show the name of the application calling the notification at the top of each popup. Out-of-box, the application name will be NtfyToast.
 
 With the `Windows Fall Creators Update`, you may modify the application name notifications on Windows 10 / 11 by supplying an `appID` to your notification javascript code. The appID must be the id assigned to the executable you wish to define that will show for the name at the top of the notification.
@@ -625,6 +674,7 @@ If you wish to brand notifications with your own application name, then there ar
 <br />
 
 ### Create App Shortcut
+
 You must create a windows shortcut (.lnk) within your windows Start Menu. This is a requirement by Microsoft.
 
 The package used by Toasted Notifier for Windows 10 & 11 notifications (ntfy-toast); includes a command which will help you create the shortcut link automatically. To do this, open Command Prompt and run the command:
@@ -684,7 +734,7 @@ C:\Users\USER\AppData\Roaming\Microsoft\Windows\Start Menu\Programs
 
 <div align="center">
 
-<img src="https://github.com/Aetherinox/ntfy-toast/assets/118329232/ea9da9f3-4c8c-4fe5-9714-d4e83901f301" width="380px">
+<img src="https://github.com/Aetherinox/ntfy-toast/assets/118329232/ea9da9f3-4c8c-4fe5-9714-d4e83901f301" width="440px">
 
 </div>
 
@@ -712,8 +762,9 @@ toasted.notify(
         remove: undefined,              // Number           | Refer to previously created notification to close.
         install: undefined              // String           | <path, application, app id> |  Creates a shortcut <path> in the start menu which point to the executable <application>, appID used for the notifications.
     },
-    function (error, response) {
-        console.log(response);
+    ( error, response ) =>
+    {
+        console.log( response );
     }
 );
 ```
@@ -732,7 +783,13 @@ With the above code, we have specified an `appID` on the following line:
 <br />
 
 ## Help
+
+The following is a list of questions or troubleshooting that may help you with implementing this node package.
+
+<br />
+
 ### How to change text `NtfyToast` at the top of notifications
+
 In order to change the text `NtfyToast`, you must supply an `-appID`. Windows Toast notifications require that you provide an application id for a valid Windows application before Windows will allow you to link another program.
 
 For instructions on accomplishing this, read the section [appID support](#appid-support)
@@ -740,6 +797,7 @@ For instructions on accomplishing this, read the section [appID support](#appid-
 <br />
 
 ### Can't use Windows Toast notifications in WSL2
+
 Ntfy makes use of a 3rd party package for Windows notifications to work. You must change the permissions on the Ntfy vendor .exe in order for it to work properly.
 
 ```shell
@@ -749,20 +807,23 @@ chmod +x node_modules/toasted-notifier/vendor/ntfyToast/ntfytoast.exe
 <br />
 
 You can add a `postinstall` action in the `package.json`:
+
 ```yml
  "scripts": {
-    "postinstall": "chmod +x node_modules/toasted-notifier/vendor/ntfyToast/ntfytoast.exe
+        "postinstall": "chmod +x node_modules/toasted-notifier/vendor/ntfyToast/ntfytoast.exe
   }
 ```
 
 <br />
 
 ### Distributing with Electron
+
 If you package your Electron based app as an asar; toasted-notifier will fail to load. This is because of how a asar package works. You cannot execute a binary from within an asar package. 
 
-Is solution is that when packaging the app into an asar, make sure you `--unpack` the `vendor/` folder of toasted-notifier so that the module still has access to the notification vendor binaries.
+The solution is that when packaging the app into an asar, make sure you `--unpack` the `vendor/` folder of `toasted-notifier/` so that the module still has access to the notification vendor binaries.
 
 You can do so with the following command:
+
 ```shell
 asar pack . app.asar --unpack "./node_modules/toasted-notifier/vendor/**"
 ```
@@ -784,7 +845,8 @@ build: {
 <br />
 
 ### Using Webpack
-When using toasted-notifier inside of webpack, you must add the snippet below to your `webpack.config.js`.
+
+When using `toasted-notifier` inside of webpack, you must add the snippet below to your `webpack.config.js`.
 
 ```javascript
 node: {
@@ -798,6 +860,7 @@ This is necessary because toasted-notifier loads the notifiers from a binary, an
 <br />
 
 ### Windows: Where are files / .lnk files placed
+
 In order for you to make your own custom application name appear at the top of a notification, you must create a `.lnk` in your Windows start menu. More about this is outlined in the section [AppID Support](#appid-support)
 
 <br />
@@ -833,6 +896,7 @@ If you are using a custom application, search for the app name as a folder, and 
 <br />
 
 ### Usage in tmux session
+
 When using toasted-notifier within a tmux session, it can cause the system to abruptly hang. To solve this issue:
 
 - Upgrade **tmux** from `1.9a` to `2.0` with `brew update && brew upgrade tmux`
