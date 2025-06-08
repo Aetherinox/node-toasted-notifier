@@ -83,7 +83,22 @@ This library is packaged with [ntfy-desktop](https://github.com/Aetherinox/ntfy-
 <br />
 
 # About
+
 Toasted Notifier allows you to send cross platform native notifications using Node.js. Works well with Electron.
+
+<br />
+
+The following different types of notifications are listed below:
+
+| Notification API | Operating System | File | View Docs |
+| --- | --- | --- | --- |
+| **WindowToaster** | `Windows 8, 10, and 11` | `notifiers\toaster.js` | [view](#windowstoaster) |
+| **WindowsBalloon** | `Windows XP / 7` | `notifiers\balloon.js` | [view](#windowsballoon) |
+| **NotifySend** | `Linux` | `notifiers\notifysend.js` | [view](#notifysend) |
+| **NotificationCenter** | `macOS / OS X` | `notifiers\notificationcenter.js` | [view](#notificationcenter) |
+| **Growl** | `MacOS / OS X` | `notifiers\growl.js` | [view](#growl) |
+
+<br />
 
 The correct notification package will be used by Toasted Notifier depending on the end-user operating system:
 -  `MacOS`: Notification Center
@@ -91,7 +106,7 @@ The correct notification package will be used by Toasted Notifier depending on t
 -  `Linux`: notify-osd or libnotify-bin
    - notify-osd or libnotify-bin must be installed 
    - Ubuntu should have this by default
--  `Windows 8 - 11`: [ntfy-toast](#what-is-ntfy-toast)
+-  `Windows 8 - 11`: [Ntfy Toasts](#what-is-ntfy-toast) / Windows Toasts
 -  `Windows 7 and earlier`: [Windows balloons](#windowsballoon)
    -  [Windows balloons](#windowsballoon) for Windows < 8.
    -  [Growl](#growl) as fallback.
@@ -101,6 +116,7 @@ The correct notification package will be used by Toasted Notifier depending on t
 <br />
 
 ## What is ntfy-toast
+
 [ntfy-toast](https://github.com/Aetherinox/ntfy-toast) is a package included in this repo, which services notifications for users running Windows 8 - 11.
 
 It is based on [SnoreToast](https://github.com/KDE/snoretoast), but has been updated with numerous features.
@@ -112,6 +128,7 @@ It is based on [SnoreToast](https://github.com/KDE/snoretoast), but has been upd
 <br />
 
 # Features
+
 - Notification support for Windows XP - 11, Linux, and MacOS.
 - Windows custom appID support for branding
 - Persistent notifications keep a message on-screen until the user dismisses it
@@ -125,6 +142,7 @@ It is based on [SnoreToast](https://github.com/KDE/snoretoast), but has been upd
 <br />
 
 # Install
+
 Simply install it using:
 
 ```shell
@@ -138,11 +156,13 @@ npm install --save toasted-notifier
 <br />
 
 # Usage
+
 Example code for implementing notifications:
 
 <br />
 
 ## Cross-Platform Advanced Usage
+
 This format can be used for all notification vendors _(Windows, Linux, Mac)_
 
 ```javascript
@@ -176,6 +196,7 @@ toasted.on('timeout', function (obj, options) {
 <br />
 
 ## Fine-grained Control
+
 If you want super fine-grained control for each reporter; you can call them individually. This allows you to tune specific options for the different vendors.
 
 See below for documentation on each reporter.
@@ -214,28 +235,35 @@ new tn.Growl(options).notify(options);
 <br />
 
 ## Specific Vendor Documentation
+
 To see information about each specific vendor and operating system, select one below:
 
 ---
 
-- [NotificationCenter](#notificationcenter)
-- [WindowToaster](#windowstoaster)
-- [Growl](#growl)
-- [WindowsBalloon](#windowsballoon)
-- [NotifySend](#notifysend)
+The following different types of notifications are listed below:
+
+| Notification API | Operating System | File | View Docs |
+| --- | --- | --- | --- |
+| **WindowToaster** | `Windows 8, 10, and 11` | `notifiers\toaster.js` | [view](#windowstoaster) |
+| **WindowsBalloon** | `Windows XP / 7` | `notifiers\balloon.js` | [view](#windowsballoon) |
+| **NotifySend** | `Linux` | `notifiers\notifysend.js` | [view](#notifysend) |
+| **NotificationCenter** | `macOS / OS X` | `notifiers\notificationcenter.js` | [view](#notificationcenter) |
+| **Growl** | `MacOS / OS X` | `notifiers\growl.js` | [view](#growl) |
 
 ---
 
 <br />
 
 ### NotificationCenter
+
 - A Node.js wrapper for terminal-notify (with fallback).
 - Code available at: `node_modules\toasted-notifier\notifiers\notificationcenter.js`
 - Requires macOS version 10.8 or higher; otherwise the fallback is [Growl](#growl). If growl is not installed, an error will be returned in the callback.
 
 <br />
 
-Since toasted-notifier wraps around `terminal-notifier`, you can do anything terminal-notifier can by passing properties to the method.
+Since `toasted-notifier` wraps around `terminal-notifier`, you can do anything terminal-notifier can by passing properties to the method.
+
 - if `terminal-notifier` says `-message`, you can do `{message: 'Foo'}`
 - if `terminal-notifier` says `-list ALL`, you can do `{list: 'ALL'}`
 
@@ -333,6 +361,7 @@ If `sound: true`, **Bottle** is the default sound.
 <br />
 
 #### Custom Path
+
 `customPath` takes a string which can be either a relative or absolute path to the binary of your fork/custom version of terminal-notifier.
 
 Example: `./vendor/mac.noindex/terminal-notifier.app/Contents/MacOS/terminal-notifier`
@@ -347,7 +376,8 @@ Example: `./vendor/mac.noindex/terminal-notifier.app/Contents/MacOS/terminal-not
 <br />
 
 ### WindowsToaster
-- A Node.js wrapper for Windows 7, 8, 10, and 11 notifications.
+
+- A Node.js wrapper for Windows 8, 10, and 11 notifications.
 - Code available at: `node_modules\toasted-notifier\notifiers\toaster.js`
 
 <br />
@@ -500,7 +530,7 @@ toasted.notify({
     title: 'Foo',
     message: 'My Message',
     icon: fs.readFileSync(__dirname + '/example_1.png'),
-    wait: true,                     // whether or not to sticky the notification (defaults to false.
+    wait: true,                     // whether or not to sticky the notification (defaults to false.)
     label: undefined,               // type of notification to use (defaults to the first registered notification type.)
     priority: undefined             // the priority of the notification from lowest (-2) to highest (2).
 });
@@ -509,6 +539,7 @@ toasted.notify({
 <br />
 
 ### WindowsBalloon
+
 - A Node.js wrapper for earlier versions of Windows such as Windows XP / 7.
 - Code available at: `node_modules\toasted-notifier\notifiers\balloon.js`
 - Uses the 3rd party library Notifu, located at: `node_modules\toasted-notifier\vendor\notifu`
@@ -564,7 +595,7 @@ toasted.notify(
         message: 'Hello to you',
         icon: __dirname + '/example_1.png',
 
-        wait: false,        // Defaults no expire time set. If true expire time of 5 seconds is used
+        wait: false,        // Defaults no expire time set. If true expire time of 5 seconds is used. not supported by Windows Toasters
         timeout: 10,        // Alias for expire-time, time etc. Time before notify-send expires. Defaults to 10 seconds.
 
         // other notify-send flags:
