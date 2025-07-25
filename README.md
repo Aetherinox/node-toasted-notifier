@@ -218,6 +218,16 @@ See below for documentation on each notification vendor.
 
 ```javascript
 /*
+    create option structure
+*/
+
+const options =
+{
+    withFallback: true,       // try Windows Toast and Growl first?
+    customPath: undefined     // relative / absolute path if you want to use your own fork
+};
+
+/*
     send notification to users running macOS 10.8 or newer
 */
 
